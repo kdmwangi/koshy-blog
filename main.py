@@ -19,7 +19,7 @@ ckeditor = CKEditor(app)
 Bootstrap(app)
 # create an instance of the LoginManager class
 login_manager = LoginManager()
-# initilaize and configure you application with flask login
+# initialize and configure you application with flask login
 login_manager.init_app(app)
 
 
