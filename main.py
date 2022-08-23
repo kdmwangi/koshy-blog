@@ -5,6 +5,7 @@ from datetime import date
 from sqlalchemy import exc, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from functools import wraps
+import os
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
@@ -14,7 +15,8 @@ from forms import CreatePostForm, RegisterForm, LogInForm, CommentForm
 from flask_gravatar import Gravatar
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+print(os.environ.get('SECRET_KEY'))
 ckeditor = CKEditor(app)
 Bootstrap(app)
 # create an instance of the LoginManager class
@@ -28,7 +30,9 @@ gravatar = Gravatar(app=app, size=100, rating='g', default='retro', force_defaul
 
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///final_blog_db.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///final_blog_db.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///final_blog_db.db')
+# the second variable indicates if the project is run locally the use the sqlite database, else use the postgres library
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
